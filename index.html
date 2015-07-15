@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>CS340 Final Project</title>
+  </head>
+  <body>
+    <header>
+      <table width="100%">
+        <tr>
+          <th style="text-align:left"><h1>CS 340 Final Project</h1></th>
+          <td>Programmed by <strong>Kelvin Watson</strong><br>OSU ID: 932540242<br>ONID ID: watsokel</td>
+        </tr>
+      </table>
+    </header>
+
+    <section>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>Patient Name</th>
+            <th>Appointment Dates</th>
+            <th>Diagnoses</th>
+            <th>Medications</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>table data</td>
+            <td>more table data</td>
+            <td>more table data</td>
+            <td>more table data</td>
+          </tr>
+        </tbody>
+      </table>
+     </section> 
+
+    <section>
+      <h2>Manage Patient Appointments</h2>
+      <form action="process.php" method="post">
+        <fieldset>
+        <legend>Patient Demographics</legend>
+        <table>
+          <tr>
+            <td colspan="2">Patient's Name</td>
+          </tr>
+          <tr>
+              <td><label for="fname">First Name</label></td>
+              <td><input type="text" name="firstname" id="fname"></td>
+          </tr>
+          <tr>
+            <td><label for="lname">Last Name</label></td>
+            <td><input type="text" name="lastname" id="lname"></td>
+          </tr>
+          <tr>
+            <td><label for="dob">Birth Date</label></td>
+            <td><input type="text" name="birthDate" id="dob" placeholder="dd/mm/yyyy"></td>
+            <!--PHP REGEX http://stackoverflow.com/questions/15491894/regex-to-validate-date-format-dd-mm-yyyy-->
+          </tr>
+        </table>
+        </fieldset>
+
+        <fieldset>
+          <legend>Apointment Date</legend>
+        </fieldset>
+      </form>
+    </section>
+    
+    <footer><em>Kelvin Watson, OSU ID 932540242, CS340 Final Project</em></footer>
+
+  </body>
+</html>

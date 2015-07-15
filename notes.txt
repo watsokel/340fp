@@ -1,0 +1,24 @@
+Relationship table with two foreign keys, how to implement ON DELETE/UPDATE
+
+CREATE TABLE categories (
+    id int unsigned not null primary key,
+    name VARCHAR(255) default null
+);
+CREATE TABLE products (
+    id int unsigned not null primary key,
+    name VARCHAR(255) default null
+);
+
+CREATE TABLE categories_products (
+    category_id int unsigned not null,
+    product_id int unsigned not null,
+    PRIMARY KEY (category_id, product_id),
+    KEY pkey (product_id),
+    FOREIGN KEY (category_id) REFERENCES categories (id)
+       ON DELETE CASCADE
+       ON UPDATE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products (id)
+       ON DELETE CASCADE
+       ON UPDATE CASCADE
+);
+This way, you can delete a product OR a category, and only the associated records in categories_products will die alongside. The cascade won't travel farther up the tree and delete the parent product/category table.
