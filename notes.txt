@@ -22,10 +22,3 @@ CREATE TABLE categories_products (
        ON UPDATE CASCADE
 );
 This way, you can delete a product OR a category, and only the associated records in categories_products will die alongside. The cascade won't travel farther up the tree and delete the parent product/category table.
-
----
-It's true that if your primary key is just a identity value auto incremented, you would have no real use for ON UPDATE CASCADE.
-
-However, let's say that your primary key is a 10 digit UPC bar code and because of expansion, you need to change it to a 13-digit UPC bar code. In that case, ON UPDATE CASCADE would allow you to change the primary key value and any tables that have foreign key references to the value will be changed accordingly.
-
-In reference to #4--if you change the child ID to something that doesn't exist in the parent table (and you have referential integrity), you should get a foreign key error.
