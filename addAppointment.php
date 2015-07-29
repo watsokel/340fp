@@ -26,6 +26,12 @@ else if((!isset($_POST['apptTime'])) || empty($_POST['apptTime']) || ("" == trim
 }
 else if(empty($_POST['selectProvider']) || ("" == trim($_POST['selectProvider']))) {
   echo "Unable to add appointment. You must select a healthcare provider.<br>";
+}
+else if(empty($_POST['reason']) || ("" == trim($_POST['reason']))) {
+  echo "Unable to add appointment. You must select a reason.<br>";
+}
+else if(empty($_POST['selectAssistant']) || ("" == trim($_POST['selectAssistant']))) {
+  echo "Unable to add appointment. You must select an assistant that responsible for approving the appointment.<br>";
 } else {
   $mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watsokel-db');
   if ($mysqli->connect_errno) {

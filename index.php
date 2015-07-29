@@ -144,7 +144,7 @@ if ($mysqli->connect_errno) {
             <td><input type="text" name="reason" id="reason" placeholder="Enter reason" required></td>
           </tr>
           <tr>
-            <td><label for="selectAssistant">Assistant</label></td>
+            <td><label for="selectAssistant">Assistant Responsible</label></td>
             <td><select name="selectAssistant" id="selectAssistant" required>
             <option selected="true" disabled="disabled"></option>
             <?php
@@ -169,10 +169,6 @@ if ($mysqli->connect_errno) {
             <td><input type="submit" value="Add Appointment"></td>
           </tr> 
         </table>
-        </fieldset>
-
-        <fieldset>
-          <legend>Apointment Date</legend>
         </fieldset>
       </form>
     </section>
