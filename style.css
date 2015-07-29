@@ -1,0 +1,17 @@
+body {
+  font-family: Arial;
+}
+#headLine{
+  background-color: #FFFF00; 
+}
+#navigation{
+  background-color:#E5E4E2;
+}
+#databaseData td{
+  font-family: monospace;
+  font-size: 1.2em;
+}
+a {
+  color: #0000A0;
+  font-family: Verdana;
+}

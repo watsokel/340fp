@@ -10,12 +10,21 @@ include 'dbpass.php';
     <title>Add Healthcare Provider</title>
   </head>
   <body>
-<?php
 
+<?php
 if(!ctype_digit($_POST['license'])){
-  echo "Unable to add healthcare provider. License must be a whole number.";
+  echo "Unable to add healthcare provider. License must be a whole number.<br>";
 }
-else{
+else if(empty($_POST['firstName']) || ("" == trim($_POST['firstName']))) {
+  echo "Unable to add healthcare provider. You must enter a first name.<br>";
+}
+else if(empty($_POST['lastName']) || ("" == trim($_POST['lastName']))) {
+ echo "Unable to add healthcare provider. You must enter a last name.<br>"; 
+}
+else if(empty($_POST['profession']) || ("" == trim($_POST['profession']))){
+  echo "Unable to add healthcare provider. You must select a profession.";
+}
+else {
   $mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watsokel-db');
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
@@ -23,7 +32,7 @@ else{
   if(!($stmt = $mysqli->prepare("INSERT INTO healthcare_providers(first_name, last_name, profession, license) VALUES (?,?,?,?)"))){
     echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
   }
-  if(!($stmt->bind_param("sssi",$_POST['firstname'],$_POST['lastname'],$_POST['profession'],$_POST['license']))){
+  if(!($stmt->bind_param("sssi",$_POST['firstName'],$_POST['lastName'],$_POST['profession'],$_POST['license']))){
     echo "Bind failed: "  . $stmt->errno . " " . $stmt->error;
   }
   if(!$stmt->execute()){

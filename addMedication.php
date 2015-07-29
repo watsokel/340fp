@@ -7,20 +7,20 @@ include 'dbpass.php';
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Add Medical Condition</title>
+    <title>Add Medication</title>
   </head>
   <body>
 <?php
 
-if(!empty($_POST['conditionName'])){
+if(!empty($_POST['medName'])){
   $mysqli = new mysqli('oniddb.cws.oregonstate.edu', 'watsokel-db', $dbpass, 'watsokel-db');
   if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
-  if(!($stmt = $mysqli->prepare("INSERT INTO medical_conditions(name) VALUES (?)"))){
+  if(!($stmt = $mysqli->prepare("INSERT INTO medications(name) VALUES (?)"))){
     echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
   }
-  if(!($stmt->bind_param("s",$_POST['conditionName']))){
+  if(!($stmt->bind_param("s",$_POST['medName']))){
     echo "Bind failed: "  . $stmt->errno . " " . $stmt->error;
   }
   if(!$stmt->execute()){
@@ -29,9 +29,9 @@ if(!empty($_POST['conditionName'])){
       echo "Successfully added " . $stmt->affected_rows . " row(s) to TABLE healthcare_providers.<br>";
   }
 } else {
-  echo "Cannot insert row. You must enter a medical condition name.";
+  echo "Cannot insert row. You must enter a medication name.";
 }
 ?>
-  Return to <a href="conditions.php">View, Filter and Add Medical Conditions</a> page
+  Return to <a href="medications.php">View, Filter and Add Medications</a> page
   </body>
 </html>

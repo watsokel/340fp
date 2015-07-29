@@ -20,7 +20,7 @@ if ($mysqli->connect_errno) {
     <header>
       <table width="100%">
         <tr>
-          <th style="text-align:left"><h1>CS 340 Final Project</h1><br><span id="headLine">VIEW, FILTER AND ADD MEDICAL CONDITIONS</th>
+          <th style="text-align:left"><h1>CS 340 Final Project</h1><br><span id="headLine">VIEW, FILTER AND ADD MEDICATIONS</span></th>
           <td valign="top">Programmed by <strong>Kelvin Watson</strong><br>OSU ID: 932540242<br>ONID ID: watsokel</td>
         </tr>
       </table>
@@ -42,16 +42,15 @@ if ($mysqli->connect_errno) {
     <hr>
 
     <section>
-      <table border="1" id="databaseData"><caption><h2>Medical Conditions</h2></caption>
+      <table border="1" id="databaseData"><caption><h2>Medications</h2></caption>
         <thead>
           <tr>
             <th>Name</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
             <?php
-            if(!($stmt = $mysqli->prepare("SELECT * FROM medical_conditions"))){
+            if(!($stmt = $mysqli->prepare("SELECT * FROM medications"))){
               echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
             }
 
@@ -66,20 +65,20 @@ if ($mysqli->connect_errno) {
             }
             $stmt->close();
             ?>
-          </tr>
         </tbody>
       </table>
      </section> 
 
-    <section><h2>Add Medical Conditions</h2>
-      <form action="addCondition.php" method="post">
+    <section>
+      <h2>Add Medications</h2>
+      <form action="addMedication.php" method="post">
         <fieldset>
-        <legend>Medical Condition Information</legend>
+        <legend>Medication Name</legend>
         <table>
           <tr>
-            <td>Name</td>
-            <td><input type="text" name="conditionName" id="fname"></td>
-            <td colspan="2"><input type="submit" value="Add Medical Condition"></td>
+              <td><label for="mName">Name</label></td>
+              <td><input type="text" name="medName" id="mName"></td>
+              <td colspan="2"><input type="submit" value="Add Medication"></td>
           </tr>
         </table>
         </fieldset>
@@ -87,8 +86,8 @@ if ($mysqli->connect_errno) {
     </section>
 
     <section>
-      <h2>Sort Medical Office Assistants</h2>
-      <form action="sortConditions.php" method="post">
+      <h2>Sort Medications</h2>
+      <form action="sortMedications.php" method="post">
         <fieldset>
         <legend>Sort by</legend>
         <table>
@@ -96,11 +95,11 @@ if ($mysqli->connect_errno) {
             <td><input type="radio" name="alphaCondition" value="ASC">Alphabetical order</td>
             <td><input type="radio" name="alphaCondition" value="DESC">Reverse alphabetical order</td>
             <td><input type="submit" value="Sort"></td>
-          </tr>        
+          </tr>         
         </table>
         </fieldset>
       </form>
-    </section>
+    </section>    
     <footer><em>Kelvin Watson, OSU ID 932540242, CS340 Final Project</em></footer>
   </body>
 </html>

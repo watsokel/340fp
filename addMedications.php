@@ -7,7 +7,7 @@ include 'dbpass.php';
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Add Medical Condition</title>
+    <title>Add Medication</title>
   </head>
   <body>
 <?php

@@ -15,12 +15,13 @@ if ($mysqli->connect_errno) {
     <meta charset="UTF-8">
     <title>CS340 Final Project</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
   </head>
   <body>
     <header>
       <table width="100%">
         <tr>
-          <th style="text-align:left"><h1>CS 340 Final Project</h1><br><span id="headLine">VIEW, FILTER AND ADD MEDICAL CONDITIONS</th>
+          <th style="text-align:left"><h1>CS 340 Final Project</h1><br><span id="headLine">VIEW, FILTER AND ADD PATIENTS</th>
           <td valign="top">Programmed by <strong>Kelvin Watson</strong><br>OSU ID: 932540242<br>ONID ID: watsokel</td>
         </tr>
       </table>
@@ -42,27 +43,29 @@ if ($mysqli->connect_errno) {
     <hr>
 
     <section>
-      <table border="1" id="databaseData"><caption><h2>Medical Conditions</h2></caption>
+      <table border="1" id="databaseData"><caption><h2>Healthcare Providers</h2></caption>
         <thead>
           <tr>
-            <th>Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Birthdate</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <?php
-            if(!($stmt = $mysqli->prepare("SELECT * FROM medical_conditions"))){
+            if(!($stmt = $mysqli->prepare("SELECT * FROM patients"))){
               echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
             }
 
             if(!$stmt->execute()){
               echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
             }
-            if(!$stmt->bind_result($name)){
+            if(!$stmt->bind_result($id, $firstName, $lastName, $birthDate)){
               echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
             }
             while($stmt->fetch()){
-             echo "<tr><td>" . $name . "</td></tr>";
+             echo "<tr><td>" . $firstName . "</td><td>" . $lastName . "</td><td>" . $birthDate . "</td></tr>";
             }
             $stmt->close();
             ?>
@@ -71,15 +74,27 @@ if ($mysqli->connect_errno) {
       </table>
      </section> 
 
-    <section><h2>Add Medical Conditions</h2>
-      <form action="addCondition.php" method="post">
+    <section>
+      <h2>Add Patients</h2>
+      <form action="addPatient.php" method="post">
         <fieldset>
-        <legend>Medical Condition Information</legend>
+        <legend>Patient Information</legend>
         <table>
           <tr>
-            <td>Name</td>
-            <td><input type="text" name="conditionName" id="fname"></td>
-            <td colspan="2"><input type="submit" value="Add Medical Condition"></td>
+              <td><label for="fname">First Name</label></td>
+              <td><input type="text" name="firstName" id="fname"></td>
+          </tr>
+          <tr>
+            <td><label for="lname">Last Name</label></td>
+            <td><input type="text" name="lastName" id="lname"></td>
+          </tr>
+          <tr>
+            <td>Birthdate</td>
+            <td><input type="text" name="dateOfBirth" id="datepicker" placeholder="Click to Select Birthdate">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2"><input type="submit" value="Add Patient"></td>
           </tr>
         </table>
         </fieldset>
@@ -87,20 +102,40 @@ if ($mysqli->connect_errno) {
     </section>
 
     <section>
-      <h2>Sort Medical Office Assistants</h2>
-      <form action="sortConditions.php" method="post">
+      <h2>Sort Patients</h2>
+      <form action="sortPatients.php" method="post">
         <fieldset>
         <legend>Sort by</legend>
         <table>
           <tr>
-            <td><input type="radio" name="alphaCondition" value="ASC">Alphabetical order</td>
-            <td><input type="radio" name="alphaCondition" value="DESC">Reverse alphabetical order</td>
+            <td><input type="radio" name="sort" value="first_name">First Name</td>
+            <td><input type="radio" name="sort" value="last_name">Last Name</td>
             <td><input type="submit" value="Sort"></td>
           </tr>        
         </table>
         </fieldset>
       </form>
     </section>
+
     <footer><em>Kelvin Watson, OSU ID 932540242, CS340 Final Project</em></footer>
   </body>
+
+
+<!-- Load jQuery JS -->
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<!-- Load jQuery UI Main JS  -->
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script> 
+<!--code.runnable.com/UdTuotHbZoQNAABq/adding-a-date-picker-to-an-input-form-field-using-jquery-->
+$(document).ready(
+  function () {
+    $( "#datepicker" ).datepicker({
+      changeMonth: true,//this option for allowing user to select month
+      changeYear: true, //this option for allowing user to select from year range
+      yearRange: '1900:2015',
+      dateFormat: "yy-mm-dd"
+    });
+  }
+);
+</script>
 </html>

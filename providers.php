@@ -14,26 +14,27 @@ if ($mysqli->connect_errno) {
   <head>
     <meta charset="UTF-8">
     <title>CS340 Final Project</title>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <header>
       <table width="100%">
         <tr>
-          <th style="text-align:left"><h1>CS 340 Final Project</h1><br><span style="color:blue">Healthcare Providers</th>
+          <th style="text-align:left"><h1>CS 340 Final Project</h1><br><span id="headLine">VIEW, FILTER AND ADD HEALTHCARE PROVIDERS</th>
           <td valign="top">Programmed by <strong>Kelvin Watson</strong><br>OSU ID: 932540242<br>ONID ID: watsokel</td>
         </tr>
       </table>
     </header>
     <hr>
     <nav>
-      <table border="1" width="100%"><caption><h2>Choose an Action</h2></caption>
+      <table border="1" width="100%" id="navigation"><caption><h2>Choose an Action</h2></caption>
         <tr>
           <td><a href="index.php">View, Filter and Add Appointments</a></td>
-          <td>View and Filter Patients</td>
+          <td><a href="patients.php">View and Filter Patients</a></td>
           <td><a href="assistants.php">View, Sort and Add Medical Office Assistants</a></td>
           <td><a href="providers.php">View, Filter and Add Healthcare Providers</a></td>
           <td><a href="conditions.php">View, Filter and Add Medical Conditions</a></td>
-          <td>View, Filter and Add  Medications</td>
+          <td><a href="medications.php">View, Filter and Add  Medications</a></td>
         </tr>
       </table>
     </nav>
@@ -41,7 +42,7 @@ if ($mysqli->connect_errno) {
     <hr>
 
     <section>
-      <table border="1"><caption><h2>Healthcare Providers</h2></caption>
+      <table border="1" id="databaseData"><caption><h2>Healthcare Providers</h2></caption>
         <thead>
           <tr>
             <th>Provider ID</th>
@@ -82,11 +83,11 @@ if ($mysqli->connect_errno) {
         <table>
           <tr>
               <td><label for="fname">First Name</label></td>
-              <td><input type="text" name="firstname" id="fname"></td>
+              <td><input type="text" name="firstName" id="fname"></td>
           </tr>
           <tr>
             <td><label for="lname">Last Name</label></td>
-            <td><input type="text" name="lastname" id="lname"></td>
+            <td><input type="text" name="lastName" id="lname"></td>
           </tr>
           <tr>
             <td>Profession</td>
@@ -121,7 +122,8 @@ if ($mysqli->connect_errno) {
         <legend>Filter by</legend>
         <table>
           <tr>
-            <td><select name="filterProvider">
+            <td><label for="filterByProfession">Profession</label>
+            <select name="filterProvider" id="filterByProfession">
             <?php
             if(!($stmt = $mysqli->prepare("SELECT DISTINCT profession FROM healthcare_providers"))){
               echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
@@ -137,6 +139,7 @@ if ($mysqli->connect_errno) {
             }
             $stmt->close();
             ?>
+            </select>
             </td>
             <td><input type="submit" value="Filter"></td>
           </tr>        

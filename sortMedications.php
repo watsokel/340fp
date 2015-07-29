@@ -16,22 +16,22 @@ if ($mysqli->connect_errno) {
   </head>
   <body>
       
-    <table border="1"><caption>Medical Conditions Ordered by name <?php if($_POST['alphaCondition']=='ASC') echo 'in alphabetical order'; else echo 'in reverse alphabetical order'; ?></caption>
+    <table border="1"><caption>Medications Ordered by name <?php if($_POST['alphaCondition']=='ASC') echo 'in alphabetical order'; else echo 'in reverse alphabetical order'; ?></caption>
       <thead>
       <tr>
-        <th>Medical Condition</th>
+        <th>Medication Name</th>
       </tr>
       </thead>
       <tbody>
         <tr>
           <?php
           if($_POST['alphaCondition']=='ASC'){
-            if(!($stmt = $mysqli->prepare("SELECT * FROM medical_conditions ORDER BY name ASC"))){
+            if(!($stmt = $mysqli->prepare("SELECT * FROM medications ORDER BY name ASC"))){
               echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
             }
           } 
           else{
-            if(!($stmt = $mysqli->prepare("SELECT * FROM medical_conditions ORDER BY name DESC"))){
+            if(!($stmt = $mysqli->prepare("SELECT * FROM medications ORDER BY name DESC"))){
               echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
             }
           } 
@@ -49,7 +49,7 @@ if ($mysqli->connect_errno) {
         </tr>
       </tbody>
     </table>
-    Return to <a href="conditions.php">View, Sort and Add Medical Conditions</a> page
+    Return to <a href="medications.php">View, Sort and Add Medications</a> page
 
   </body>
 </html>
