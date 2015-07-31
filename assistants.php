@@ -20,24 +20,35 @@ if ($mysqli->connect_errno) {
     <header>
       <table width="100%">
         <tr>
-          <th style="text-align:left"><h1>CS 340 Final Project</h1><br><span id="headLine">VIEW, SORT AND ADD MEDICAL OFFICE ASSISTANTS</span></th>
+          <th style="text-align:left"><h1>CS 340 Final Project</h1><br><span id="headLine">VIEW, ADD AND SORT MEDICAL OFFICE ASSISTANTS</span></th>
           <td valign="top">Programmed by <strong>Kelvin Watson</strong><br>OSU ID: 932540242<br>ONID ID: watsokel</td>
         </tr>
       </table>
     </header>
     <hr>
     <nav>
-      <table border="1" width="100%" id="navigation"><caption><h2>Choose an Action</h2></caption>
+      <table border="1" width="100%" id="navigation"><caption><h3>Choose an Action</h3></caption>
         <tr>
-          <td><a href="index.php">View, Filter and Add Appointments</a></td>
-          <td><a href="patients.php">View and Filter Patients</a></td>
-          <td><a href="assistants.php">View, Sort and Add Medical Office Assistants</a></td>
-          <td><a href="providers.php">View, Filter and Add Healthcare Providers</a></td>
-          <td><a href="conditions.php">View, Filter and Add Medical Conditions</a></td>
-          <td><a href="medications.php">View, Filter and Add  Medications</a></td>
+          <td><strong>BASIC OPERATIONS</strong></td>
+          <td><a href="index.php">View, Add and Sort Appointments</a></td>
+          <td><a href="patients.php">View, Add and Sort Patients</a></td>
+          <td><a href="assistants.php">View, Add and Sort Medical Office Assistants</a></td>
+          <td><a href="providers.php">View, Add, Filter and Sort Healthcare Providers</a></td>
+          <td><a href="conditions.php">View, Add and Sort Medical Conditions</a></td>
+          <td><a href="medications.php">View, Add and Sort Medications</a></td>
+        </tr>
+        <tr>
+          <td><strong>ADVANCED OPERATIONS</strong></td>
+          <td><a href="diagnosis.php">Add/Update Patient Diagnoses</a></td>
+          <td><a href="prescription.php">Add/Update Patient Prescription</a></td>
+          <td><a href="updatePatient.php">Update Patient Demographics</a></td>
+          <td><a href="updateAssistant.php">Update Medical Office Assistant Information</a></td>
+          <td><a href="updateProvider.php">Update Healthcare Provider Information</a></td>
+          <td></td>
         </tr>
       </table>
     </nav>
+    
     
     <hr>
 

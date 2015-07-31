@@ -13,7 +13,7 @@ include 'dbpass.php';
 
 <?php
 if(!ctype_digit($_POST['license'])){
-  echo "Unable to add healthcare provider. License must be a whole number.<br>";
+  echo "Unable to add healthcare provider. License must be a (whole) number.<br>";
 }
 else if(empty($_POST['firstName']) || ("" == trim($_POST['firstName']))) {
   echo "Unable to add healthcare provider. You must enter a first name.<br>";

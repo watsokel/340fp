@@ -22,7 +22,7 @@ if ($mysqli->connect_errno) {
     <header>
       <table width="100%">
         <tr>
-          <th style="text-align:left"><h1>CS 340 Final Project</h1><br><span id="headLine">VIEW, FILTER AND ADD APPOINTMENTS</span></th>
+          <th style="text-align:left"><h1>CS 340 Final Project</h1><br><span id="headLine">VIEW AND ADD/UPDATE PATIENT DIAGNOSES</span></th>
           <td valign="top">Programmed by <strong>Kelvin Watson</strong><br>OSU ID: 932540242<br>ONID ID: watsokel</td>
         </tr>
       </table>
@@ -51,40 +51,34 @@ if ($mysqli->connect_errno) {
       </table>
     </nav>
     
-    
     <hr>
 
     <section>
-      <table border="1" id="databaseData"><caption><h2>Appointments</h2></caption>
+      <table border="1" id="databaseData"><caption><h2>Diagnoses</h2></caption>
         <thead>
           <tr>
             <th>Patient First Name</th>
             <th>Patient Last Name</th>
-            <th>Appointment Date/Time</th>
-            <th>Healthcare Provider</th>
-            <th>Reason for Appointment</th>
-            <th>Scheduled By (Medical Office Assistant)</th>
+            <th>Medical Conditions</th>
           </tr>
         </thead>
          <tbody>
             <?php
-            if(!($stmt = $mysqli->prepare("SELECT " . "pt.first_name,pt.last_name,ap.date_time,hp.first_name,hp.last_name,ap.reason,oa.first_name,oa.last_name 
-            FROM appointments ap 
-            INNER JOIN patients pt ON pID = patient_ID 
-            INNER JOIN healthcare_providers hp ON hID = provider_ID 
-            LEFT JOIN medical_office_assistants oa ON mID = assistant_ID"))){
+            if(!($stmt = $mysqli->prepare("SELECT " . "pt.first_name,pt.last_name,mc.name 
+            FROM patients pt
+            LEFT JOIN diagnosed di ON pID = patient_ID 
+            LEFT JOIN medical_conditions mc ON mc.name = diagnosis"))){
               echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
             }
 
             if(!$stmt->execute()){
               echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
             }
-            if(!$stmt->bind_result($firstName, $lastName, $dateTime, $MDFirstName, $MDLastName, $reason, $oaFirstName, $oaLastName)){
+            if(!$stmt->bind_result($firstName, $lastName, $condition)){
               echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
             }
             while($stmt->fetch()){
-             echo "<tr><td>" .$firstName. "</td><td>" .$lastName. "</td><td>" .$dateTime. "</td><td>" . "$MDFirstName $MDLastName". 
-             "</td><td>" .$reason. "</td><td>" ."$oaFirstName $oaLastName". "</td></tr>";
+             echo "<tr><td>" .$firstName. "</td><td>" .$lastName. "</td><td>" .$condition. "</td></tr>";
             }
             $stmt->close();
             ?>
@@ -93,10 +87,10 @@ if ($mysqli->connect_errno) {
      </section> 
 
     <section>
-      <h2>Add Patient Appointments</h2>
-      <form action="addAppointment.php" method="post">
+      <h2>Add a Diagnosis</h2>
+      <form action="addDiagnosis.php" method="post">
         <fieldset>
-        <legend>Patient Demographics</legend>
+        <legend>Add Medical Condition to</legend>
         <table>
           <tr>
             <td><label for="selectPatient">Patient Name</label></td>
@@ -121,63 +115,7 @@ if ($mysqli->connect_errno) {
             </td>
           </tr>
           <tr>
-            <td><label for="datepicker">Appointment Date</label></td>
-            <td><input type="text" name="apptDate" id="datepicker" placeholder="Click to Select a Date" required></td>
-          </tr>
-          <tr>
-            <td><label for="timepicker">Appointment Time</label></td>
-            <td><input type="text" class="timepicker" name="apptTime" id="timepicker" placeholder="Click to Select a Time" required></td>
-          </tr>
-          <tr>
-            <td><label for="selectProvider">Healthcare Provider</label></td>
-            <td><select name="selectProvider" id="selectProvider" required>
-            <option selected="true" disabled="disabled"></option>
-            <?php
-            if(!($stmt = $mysqli->prepare("SELECT hID,first_name,last_name,profession FROM healthcare_providers"))){
-              echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
-            }
-            if(!$stmt->execute()){
-              echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
-            }
-            if(!$stmt->bind_result($providerID,$firstName,$lastName,$profession)){
-              echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
-            }
-            while($stmt->fetch()){
-              echo "<option value=\"$providerID\">$firstName $lastName, $profession</option>";
-            }
-            $stmt->close();
-            ?>
-            </select>
-            </td>
-          </tr>
-          <tr>
-            <td><label for="reason">Reason for appointment</label></td>
-            <td><input type="text" name="reason" id="reason" placeholder="Enter reason" required></td>
-          </tr>
-          <tr>
-            <td><label for="selectAssistant">Scheduled by (assistant)</label></td>
-            <td><select name="selectAssistant" id="selectAssistant" required>
-            <option selected="true" disabled="disabled"></option>
-            <?php
-            if(!($stmt = $mysqli->prepare("SELECT mID,first_name,last_name FROM medical_office_assistants"))){
-              echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
-            }
-            if(!$stmt->execute()){
-              echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
-            }
-            if(!$stmt->bind_result($assistantID,$firstName,$lastName)){
-              echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
-            }
-            while($stmt->fetch()){
-              echo "<option value=\"$assistantID\">$firstName $lastName</option>";
-            }
-            $stmt->close();
-            ?>
-            </select>
-            </td>
-          </tr>
-          <tr>
-            <td><input type="submit" value="Add Appointment"></td>
+            <td><input type="submit" value="Add a Diagnosis"></td>
           </tr> 
         </table>
         </fieldset>
@@ -185,20 +123,36 @@ if ($mysqli->connect_errno) {
     </section>
 
     <section>
-      <h2>Sort Appointments</h2>
-      <form action="sortAppointments.php" method="post">
+      <h2>Delete a Diagnosis</h2>
+      <form action="deleteDiagnosis.php" method="post">
         <fieldset>
-        <legend>Sort by</legend>
+        <legend>Delete a Medical Condition from</legend>
         <table>
           <tr>
-            <td><input type="radio" name="sort" value="pt.first_name">Patient First Name</td>
-            <td><input type="radio" name="sort" value="pt.last_name">Patient Last Name</td>
-            <td><input type="radio" name="sort" value="ap.date_time">Date and Time</td>
-            <td><input type="radio" name="sort" value="hp.first_name">Healthcare Provider</td>
-            <td><input type="radio" name="sort" value="ap.reason">Reason</td>
-            <td><input type="radio" name="sort" value="oa.first_name">Scheduled by (assistant)</td>
-            <td><input type="submit" value="Sort"></td>
-          </tr>        
+            <td><label for="selectPatient">Patient Name</label></td>
+            <td><select name="selectPatient" id="selectPatient" required>
+            <option selected="true" disabled="disabled"></option>
+            <?php
+            if(!($stmt = $mysqli->prepare("SELECT pID,first_name,last_name FROM patients"))){
+              echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+            }
+            if(!$stmt->execute()){
+              echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+            }
+            if(!$stmt->bind_result($patientID,$firstName,$lastName)){
+              echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+            }
+            while($stmt->fetch()){
+              echo "<option value=\"$patientID\">$firstName $lastName</option>";
+            }
+            $stmt->close();
+            ?>
+            </select>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="submit" value="Delete a Diagnosis"></td>
+          </tr> 
         </table>
         </fieldset>
       </form>

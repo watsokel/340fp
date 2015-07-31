@@ -7,14 +7,14 @@ include 'dbpass.php';
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Add Appointment</title>
+    <title>Add Patient</title>
   </head>
   <body>
 
 <?php
 
 if(empty($_POST['firstName']) || ("" == trim($_POST['firstName']))) {
-  echo "Unable to add appointment. You must enter a first name for a patient.<br>";
+  echo "Unable to add patient. You must enter a first name for a patient.<br>";
 }
 else if(empty($_POST['lastName']) || ("" == trim($_POST['lastName']))) {
  echo "Unable to add patient. You must enter a last name.<br>"; 
@@ -41,6 +41,8 @@ else {
   } else {
       echo "Successfully added " . $stmt->affected_rows . " row(s) to TABLE patients.<br>";
   }
+  $stmt->close();
+
 }?>
   Return to <a href="patients.php">View, Filter and Add Patients</a> page
   </body>
